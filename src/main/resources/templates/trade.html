@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html dir="ltr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${title}"/>
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- CSS only -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" rel="stylesheet"/>
+
+    <style>
+        .unselectable{
+            -webkit-user-select:none;
+            -khtml-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            -o-user-select:none;
+            user-select:none;
+        }
+
+        .cursor{
+            cursor: pointer;
+        }
+
+        .cursor:hover{
+            color: #d0d0d0;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function setGetParameter(paramName, paramValue){
+            var url = window.location.href;
+            var hash = location.hash;
+            url = url.replace(hash, '');
+            if (url.indexOf(paramName + "=") >= 0){
+                var prefix = url.substring(0, url.indexOf(paramName + "="));
+                var suffix = url.substring(url.indexOf(paramName + "="));
+                suffix = suffix.substring(suffix.indexOf("=") + 1);
+                suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
+                url = prefix + paramName + "=" + paramValue + suffix;
+            }else{
+                if (url.indexOf("?") < 0){
+                    url += "?" + paramName + "=" + paramValue;
+                }else
+                    url += "&" + paramName + "=" + paramValue;
+                }
+            window.location.href = url + hash;
+        }
+
+        function copy(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+    </script>
+
+</head>
+<body>
+
+<header th:insert="blocks/headertrade :: headertrade"></header>
+
+<!-- PICKER -->
+<div class="picker">
+    <div class="container-fluid bg-secondary p-3 text-white">
+        <form action="">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-3 text-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <label for="minPrice">Set minimal price</label>
+                                <input type="number" class="form-control" id="minPrice" placeholder="USD" value="5.0" name="minPrice">
+                            </div>
+                            <div class="col">
+                                <label for="maxPrice">Set maximum price</label>
+                                <input type="number" class="form-control" id="maxPrice" placeholder="USD" value="50.0" name="maxPrice">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="isOverstocked" value="true" name="isOverStocked">
+                        <label class="form-check-label unselectable" for="isOverstocked">Disable overstock</label>
+                    </div>
+                </div>
+                <div class="container col">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="lootfarm">LOOT.FARM
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="bitskins">BITSKINS
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="tradeit">TRADEIT
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="swapgg">SWAPGG
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="buff163">BUFF163
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="csdeals">CSDEALS
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="csgo500">CSGO500
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label unselectable">
+                                    <input class="form-check-input" name="service" type="checkbox" value="csgoatse">CSGOATSE
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 bg-secondary pt-3">
+                <div class="row justify-content-center align-items-center">
+                    <button type="submit" class="btn btn-dark" onclick="someFunc()">Compare</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--TABLE-->
+<!-- DELETE d-none ONCLICK -->
+<div class="container-fluid bg-dark p-3 text-white min-vh-100">
+    <div class="compare">
+        <div class="card bg-secondary mb-3">
+            <div class="card-header">
+                <div class="row justify-content-center align-items-center">
+                    <span th:text="${firstService}"/>&nbsp;&&nbsp;<span th:text="${secondService}"/>&nbsp;COMPARE
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-dark">
+                    <!--HEAD-->
+                    <thead>
+                    <tr>
+                        <th scope="col"><a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('order', 'none')"><span>NAME</span></a></th>
+                        <th class="text-center" scope="col"/><a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('order', 'first_price_asc')"><span th:text="${firstService}"></span></a></th>
+                        <th class="text-center" scope="col"><a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('order', 'second_price_asc')"><span th:text="${secondService}"></span></a></th>
+                        <th class="text-center" scope="col"><a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('order', 'first_second')"><span th:text="${firstService}"/>&nbsp;&#8594;&nbsp;<span th:text="${secondService}"/></a></th>
+                        <th class="text-center" scope="col"><a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('order', 'second_first')"><span th:text="${secondService}"/>&nbsp;&#8594;&nbsp;<span th:text="${firstService}"/></a></th>
+                    </tr>
+                    </thead>
+                    <div th:each="comparedItem : ${comparedItem}">
+                        <tr>
+                            <td class="align-middle"><span class="cursor" onclick="copy(this)" th:text="${comparedItem.firstService.name}"/></td>
+                            <td class="align-middle text-center"><span th:text="${#numbers.formatDecimal(comparedItem.firstService.price, 1, 'COMMA', 2, 'POINT')}"/>$<br>[<span th:text="${comparedItem.firstService.amount}"/>/<span th:text="${comparedItem.firstService.max}"/>]</td>
+                            <td class="align-middle text-center"><span th:text="${#numbers.formatDecimal(comparedItem.secondService.price, 1, 'COMMA', 2, 'POINT')}"/>$<br>[<span th:text="${comparedItem.secondService.amount}"/>/<span th:text="${comparedItem.secondService.max}"/>]</td>
+                            <td class="align-middle text-center"><span th:text="${#numbers.formatDecimal(comparedItem.firstToSecondProfit, 1, 'COMMA', 2, 'POINT')}"/>%</td>
+                            <td class="align-middle text-center"><span th:text="${#numbers.formatDecimal(comparedItem.secondToFirstProfit, 1, 'COMMA', 2, 'POINT')}"/>%</td>
+                        </tr>
+                    </div>
+                </table>
+            </div>
+            <div class="card-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer th:insert="blocks/footer :: footer"></footer>
+
+<!-- JS, Popper.js, and jQuery -->
+<script crossorigin="anonymous"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
