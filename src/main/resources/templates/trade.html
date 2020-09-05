@@ -11,6 +11,7 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
     <link crossorigin="anonymous" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
         .unselectable{
@@ -85,6 +86,19 @@
             document.execCommand("copy");
             $temp.remove();
         }
+
+        $(document).ready(function(){
+            const urlParams = new URLSearchParams(window.location.search)
+
+            $("#firstServiceMinCount").val(urlParams.get('firstServiceMinCount'));
+            $("#firstServiceMaxCount").val(urlParams.get('firstServiceMaxCount'));
+            $("#secondServiceMinCount").val(urlParams.get('secondServiceMinCount'));
+            $("#secondServiceMaxCount").val(urlParams.get('secondServiceMaxCount'));
+            $("#firstToSecondMinPerCent").val(urlParams.get('firstToSecondMinPerCent'));
+            $("#firstToSecondMaxPerCent").val(urlParams.get('firstToSecondMaxPerCent'));
+            $("#secondToFirstMinPerCent").val(urlParams.get('secondToFirstMinPerCent'));
+            $("#secondToFirstMaxPerCent").val(urlParams.get('secondToFirstMaxPerCent'));
+        });
     </script>
 
 </head>
@@ -202,7 +216,7 @@
                             </div>
                             <div class="container">
                                 <div class="row mt-1">
-                                    <input type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark" placeholder="ITEM NAME">
+                                    <input type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME">
                                 </div>
                             </div>
                         </th>
@@ -213,8 +227,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('firstServiceMinCount', $(this).val())">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('firstServiceMaxCount', $(this).val())">
+                                <input id="firstServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" value="" onchange="setGetParameter('firstServiceMinCount', $(this).val())">
+                                <input id="firstServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('firstServiceMaxCount', $(this).val())">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -224,8 +238,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('secondServiceMinCount', $(this).val())">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('secondServiceMaxCount', $(this).val())">
+                                <input id="secondServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="setGetParameter('secondServiceMinCount', $(this).val())">
+                                <input id="secondServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('secondServiceMaxCount', $(this).val())">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -238,8 +252,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('firstToSecondMinPerCent', $(this).val())">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('firstToSecondMaxPerCent', $(this).val())">
+                                <input id="firstToSecondMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="setGetParameter('firstToSecondMinPerCent', $(this).val())">
+                                <input id="firstToSecondMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('firstToSecondMaxPerCent', $(this).val())">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -251,8 +265,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('secondToFirstMinPerCent', $(this).val())">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('secondToFirstMaxPerCent', $(this).val())">
+                                <input id="secondToFirstMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="setGetParameter('secondToFirstMinPerCent', $(this).val())">
+                                <input id="secondToFirstMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('secondToFirstMaxPerCent', $(this).val())">
                             </div>
                         </th>
                     </tr>
