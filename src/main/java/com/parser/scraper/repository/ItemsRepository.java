@@ -9,5 +9,5 @@ import java.util.Set;
 @Repository
 public interface ItemsRepository extends JpaRepository<Items, Long> {
 
-    Set<Items> findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThan(int marketId, long gameId, double maxPrice, double minPrice);
+    Set<Items> findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual(int marketId, long gameId, double maxPrice, double minPrice, int serviceMinCount, int serviceMaxCount);
 }

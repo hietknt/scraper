@@ -49,6 +49,14 @@ public class TradeController {
                                @RequestParam(required = false, defaultValue = "false") boolean isOverStocked,
                                @RequestParam(required = false, defaultValue = "lootfarm,tradeit") List<String> service,
                                @RequestParam(required = false, defaultValue = "none") String order,
+                               @RequestParam(required = false, defaultValue = "0") int firstServiceMinCount,
+                               @RequestParam(required = false, defaultValue = "10000") int firstServiceMaxCount,
+                               @RequestParam(required = false, defaultValue = "0") int secondServiceMinCount,
+                               @RequestParam(required = false, defaultValue = "10000") int secondServiceMaxCount,
+                               @RequestParam(required = false, defaultValue = "-10000") double firstToSecondMinPerCent,
+                               @RequestParam(required = false, defaultValue = "10000") double firstToSecondMaxPerCent,
+                               @RequestParam(required = false, defaultValue = "-10000") double secondToFirstMinPerCent,
+                               @RequestParam(required = false, defaultValue = "10000") double secondToFirstMaxPerCent,
                                @PathVariable String game,
                                Model model){
 
@@ -58,10 +66,25 @@ public class TradeController {
             gameId = games.stream().filter(object -> object.getGameName().equals(game)).findFirst().get().getGameId();
         }
 
-        return compare(minPrice, maxPrice, isOverStocked, service, order, gameId, model);
+        if (firstServiceMinCount < 0){ firstServiceMinCount = 0; }
+        if (firstServiceMaxCount < 0){ firstServiceMaxCount = 10000; }
+        if (secondServiceMinCount < 0){ secondServiceMinCount = 0; }
+        if (secondServiceMaxCount < 0){ secondServiceMaxCount = 10000; }
+
+        return compare(minPrice, maxPrice, isOverStocked, service, order,
+                firstServiceMinCount, firstServiceMaxCount,
+                secondServiceMinCount, secondServiceMaxCount,
+                firstToSecondMinPerCent, firstToSecondMaxPerCent,
+                secondToFirstMinPerCent, secondToFirstMaxPerCent,
+                gameId, model);
     }
 
-    private String compare(double minPrice, double maxPrice, boolean isOverStocked, List<String> service, String order, long gameId, Model model){
+    private String compare(double minPrice, double maxPrice, boolean isOverStocked, List<String> service, String order,
+                           int firstServiceMinCount, int firstServiceMaxCount,
+                           int secondServiceMinCount, int secondServiceMaxCount,
+                           double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
+                           double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
+                           long gameId, Model model){
         if (service.size() == 1){
             return oneServicePage(minPrice, maxPrice, isOverStocked, service.get(0), model);
         }
@@ -79,14 +102,18 @@ public class TradeController {
         }
 
 
-        Set<Items> firstMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThan((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice);
-        Set<Items> secondMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThan((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice);
+        Set<Items> firstMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
+        Set<Items> secondMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
         List<ComparedItem> comparedItems = new LinkedList<>();
 
         firstMarketSet.stream().forEach(firstMarketItem -> {
             if (secondMarketSet.contains(firstMarketItem)) {
                 Items secondMarketItem = secondMarketSet.stream().filter(firstMarketItem::equals).findAny().get();
-                comparedItems.add(new ComparedItem(firstMarketItem, secondMarketItem));
+                ComparedItem item = new ComparedItem(firstMarketItem, secondMarketItem);
+                if(firstToSecondMinPerCent <= item.getFirstToSecondProfit() && item.getFirstToSecondProfit() <= firstToSecondMaxPerCent
+                && secondToFirstMinPerCent <= item.getSecondToFirstProfit() && item.getSecondToFirstProfit() <= secondToFirstMaxPerCent) {
+                    comparedItems.add(item);
+                }
             }
         });
 

@@ -202,7 +202,7 @@
                             </div>
                             <div class="container">
                                 <div class="row mt-1">
-                                    <input type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark" placeholder="ITEM NAME" value="" name="">
+                                    <input type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark" placeholder="ITEM NAME">
                                 </div>
                             </div>
                         </th>
@@ -213,8 +213,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" value="" name="firstServiceMinCount">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" value="" name="firstServiceMaxCount">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('firstServiceMinCount', $(this).val())">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('firstServiceMaxCount', $(this).val())">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -224,8 +224,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" value="" name="secondServiceMinCount">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" value="" name="secondServiceMaxCount">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('secondServiceMinCount', $(this).val())">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('secondServiceMaxCount', $(this).val())">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -238,8 +238,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" value="" name="firstToSecondMinPerCent">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" value="" name="firstToSecondMaxPerCent">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('firstToSecondMinPerCent', $(this).val())">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('firstToSecondMaxPerCent', $(this).val())">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -251,8 +251,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" value="" name="secondToFirstMinPerCent">
-                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" value="" name="secondToFirstMaxPerCent">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark" placeholder="FROM" onchange="setGetParameter('secondToFirstMinPerCent', $(this).val())">
+                                <input type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark" placeholder="TO" onchange="setGetParameter('secondToFirstMaxPerCent', $(this).val())">
                             </div>
                         </th>
                     </tr>
