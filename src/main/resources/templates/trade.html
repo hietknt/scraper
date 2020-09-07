@@ -15,14 +15,20 @@
 
     <script type="text/javascript">
         function setGetParameter(paramName, paramValue){
+            const urlParams = new URLSearchParams(window.location.search);
             var url = window.location.href;
             var hash = location.hash;
             url = url.replace(hash, '');
+
             if (url.indexOf(paramName + "=") >= 0){
                 var prefix = url.substring(0, url.indexOf(paramName + "="));
                 var suffix = url.substring(url.indexOf(paramName + "="));
                 suffix = suffix.substring(suffix.indexOf("=") + 1);
                 suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
+
+                if (urlParams.get('order') == paramValue){
+                    paramValue = paramValue.replace("asc", "desc");
+                }
                 url = prefix + paramName + "=" + paramValue + suffix;
             }else{
                 if (url.indexOf("?") < 0){
@@ -52,6 +58,9 @@
             $("#firstToSecondMaxPerCent").val(urlParams.get('firstToSecondMaxPerCent'));
             $("#secondToFirstMinPerCent").val(urlParams.get('secondToFirstMinPerCent'));
             $("#secondToFirstMaxPerCent").val(urlParams.get('secondToFirstMaxPerCent'));
+            $("#itemName").val(urlParams.get('itemName'));
+            $("#minPrice").val(urlParams.get('minPrice'));
+            $("#maxPrice").val(urlParams.get('maxPrice'));
         });
     </script>
 
@@ -70,11 +79,11 @@
                         <div class="row">
                             <div class="col">
                                 <label for="minPrice">Minimal price</label>
-                                <input type="number" class="form-control text-center border border-secondary" id="minPrice" placeholder="USD" value="5" name="minPrice">
+                                <input type="number" class="form-control text-center border border-secondary" id="minPrice" placeholder="USD" name="minPrice">
                             </div>
                             <div class="col">
                                 <label for="maxPrice">Maximum price</label>
-                                <input type="number" class="form-control text-center border border-secondary" id="maxPrice" placeholder="USD" value="50" name="maxPrice">
+                                <input type="number" class="form-control text-center border border-secondary" id="maxPrice" placeholder="USD"p[] name="maxPrice">
                             </div>
                         </div>
                     </div>
@@ -170,7 +179,7 @@
                             </div>
                             <div class="container">
                                 <div class="row mt-1">
-                                    <input type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME">
+                                    <input id="itemName" type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME" onchange="setGetParameter('itemName', $(this).val())">
                                 </div>
                             </div>
                         </th>

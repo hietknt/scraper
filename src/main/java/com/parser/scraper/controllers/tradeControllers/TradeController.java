@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 
 @Controller
@@ -57,6 +55,7 @@ public class TradeController {
                                @RequestParam(required = false, defaultValue = "10000") double firstToSecondMaxPerCent,
                                @RequestParam(required = false, defaultValue = "-10000") double secondToFirstMinPerCent,
                                @RequestParam(required = false, defaultValue = "10000") double secondToFirstMaxPerCent,
+                               @RequestParam(required = false, defaultValue = "") String itemName,
                                @PathVariable String game,
                                Model model){
 
@@ -76,7 +75,7 @@ public class TradeController {
                 secondServiceMinCount, secondServiceMaxCount,
                 firstToSecondMinPerCent, firstToSecondMaxPerCent,
                 secondToFirstMinPerCent, secondToFirstMaxPerCent,
-                gameId, model);
+                itemName.toLowerCase(), gameId, model);
     }
 
     private String compare(double minPrice, double maxPrice, boolean isOverStocked, List<String> service, String order,
@@ -84,7 +83,7 @@ public class TradeController {
                            int secondServiceMinCount, int secondServiceMaxCount,
                            double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
                            double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
-                           long gameId, Model model){
+                           String itemName, long gameId, Model model){
         if (service.size() == 1){
             return oneServicePage(minPrice, maxPrice, isOverStocked, service.get(0), model);
         }
@@ -108,11 +107,13 @@ public class TradeController {
 
         firstMarketSet.stream().forEach(firstMarketItem -> {
             if (secondMarketSet.contains(firstMarketItem)) {
-                Items secondMarketItem = secondMarketSet.stream().filter(firstMarketItem::equals).findAny().get();
-                ComparedItem item = new ComparedItem(firstMarketItem, secondMarketItem);
-                if(firstToSecondMinPerCent <= item.getFirstToSecondProfit() && item.getFirstToSecondProfit() <= firstToSecondMaxPerCent
-                && secondToFirstMinPerCent <= item.getSecondToFirstProfit() && item.getSecondToFirstProfit() <= secondToFirstMaxPerCent) {
-                    comparedItems.add(item);
+                if (Stream.of(itemName.split(" ")).allMatch(firstMarketItem.getName().toLowerCase()::contains)) {
+                    Items secondMarketItem = secondMarketSet.stream().filter(firstMarketItem::equals).findAny().get();
+                    ComparedItem item = new ComparedItem(firstMarketItem, secondMarketItem);
+                    if(firstToSecondMinPerCent <= item.getFirstToSecondProfit() && item.getFirstToSecondProfit() <= firstToSecondMaxPerCent
+                            && secondToFirstMinPerCent <= item.getSecondToFirstProfit() && item.getSecondToFirstProfit() <= secondToFirstMaxPerCent) {
+                        comparedItems.add(item);
+                    }
                 }
             }
         });
@@ -122,9 +123,13 @@ public class TradeController {
         }else if(order.equals("second_first")){
             Collections.sort(comparedItems, tradeComparator.getSecondToFirst());
         }else if(order.equals("first_price_asc")){
-            Collections.sort(comparedItems, tradeComparator.getFirstServicePrice());
+            Collections.sort(comparedItems, tradeComparator.getFirstServicePriceAsc());
         }else if(order.equals("second_price_asc")){
-            Collections.sort(comparedItems, tradeComparator.getSecondServicePrice());
+            Collections.sort(comparedItems, tradeComparator.getSecondServicePriceAsc());
+        }else if(order.equals("first_price_desc")){
+            Collections.sort(comparedItems, tradeComparator.getFirstServicePriceDesc());
+        }else if(order.equals("second_price_desc")){
+            Collections.sort(comparedItems, tradeComparator.getSecondServicePriceDesc());
         }
 
         model.addAttribute("title", "Compare CSGO");
