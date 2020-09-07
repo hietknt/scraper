@@ -1,0 +1,43 @@
+.unselectable{
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.cursor:hover{
+    color: #d0d0d0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #8a8a8a;
+}
+.form-control:-moz-placeholder {
+    color: #8a8a8a;
+}
+.form-control::-moz-placeholder {
+    color: #8a8a8a;
+}
+.form-control::placeholder {
+    color: #8a8a8a;
+}
+.form-control:-ms-input-placeholder {
+    color: #8a8a8a;
+}

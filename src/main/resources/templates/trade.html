@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title th:text="${title}"/>
-    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <!-- CSS only -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -12,52 +12,6 @@
     <link crossorigin="anonymous" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <style>
-        .unselectable{
-            -webkit-user-select:none;
-            -khtml-user-select:none;
-            -moz-user-select:none;
-            -ms-user-select:none;
-            -o-user-select:none;
-            user-select:none;
-        }
-
-        .cursor{
-            cursor: pointer;
-        }
-
-        .cursor:hover{
-            color: #d0d0d0;
-        }
-
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        /* Firefox */
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-
-        .form-control::-webkit-input-placeholder {
-            color: #8a8a8a;
-        }
-        .form-control:-moz-placeholder {
-            color: #8a8a8a;
-        }
-        .form-control::-moz-placeholder {
-            color: #8a8a8a;
-        }
-        .form-control::placeholder {
-             color: #8a8a8a;
-        }
-        .form-control:-ms-input-placeholder {
-             color: #8a8a8a;
-        }
-    </style>
 
     <script type="text/javascript">
         function setGetParameter(paramName, paramValue){
@@ -116,11 +70,11 @@
                         <div class="row">
                             <div class="col">
                                 <label for="minPrice">Minimal price</label>
-                                <input type="number" class="form-control" id="minPrice" placeholder="USD" value="5" name="minPrice">
+                                <input type="number" class="form-control text-center border border-secondary" id="minPrice" placeholder="USD" value="5" name="minPrice">
                             </div>
                             <div class="col">
                                 <label for="maxPrice">Maximum price</label>
-                                <input type="number" class="form-control" id="maxPrice" placeholder="USD" value="50" name="maxPrice">
+                                <input type="number" class="form-control text-center border border-secondary" id="maxPrice" placeholder="USD" value="50" name="maxPrice">
                             </div>
                         </div>
                     </div>
