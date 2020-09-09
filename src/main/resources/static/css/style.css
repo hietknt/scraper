@@ -41,3 +41,7 @@ input[type=number] {
 .form-control:-ms-input-placeholder {
     color: #8a8a8a;
 }
+
+.nowrap{
+    white-space: nowrap;
+}
