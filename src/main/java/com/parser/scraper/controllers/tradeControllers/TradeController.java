@@ -2,10 +2,10 @@ package com.parser.scraper.controllers.tradeControllers;
 
 import com.parser.scraper.model.ComparedItem;
 import com.parser.scraper.model.GameInfo;
-import com.parser.scraper.model.Items;
+import com.parser.scraper.model.Item;
 import com.parser.scraper.model.MarketPlace;
 import com.parser.scraper.repository.GameInfoRepository;
-import com.parser.scraper.repository.ItemsRepository;
+import com.parser.scraper.repository.ItemRepository;
 import com.parser.scraper.repository.MarketPlaceRepository;
 import com.parser.scraper.service.comparator.TradeComparator;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 public class TradeController {
 
     private final MarketPlaceRepository marketPlaceRepository;
-    private final ItemsRepository itemsRepository;
+    private final ItemRepository itemRepository;
     private final GameInfoRepository gameInfoRepository;
     private final TradeComparator tradeComparator;
 
@@ -100,24 +100,26 @@ public class TradeController {
             secondMarketPlace = marketPlaces.stream().filter(object -> object.getName().equals("tradeit")).findFirst().get();
         }
 
-        Set<Items> firstMarketSet;
-        Set<Items> secondMarketSet;
-        if (isOverStocked == true && order.equals("first_second")){
-            firstMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
-            secondMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqualAndAmountLessThenEqualMax((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
-        }else if(isOverStocked == true && order.equals("second_first")){
-            firstMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqualAndAmountLessThenEqualMax((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
-            secondMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
-        }else {
-            firstMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
-            secondMarketSet = itemsRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
+        Set<Item> firstMarketSet;
+        Set<Item> secondMarketSet;
+        if (isOverStocked == true){
+            if(order.equals("second_first")){
+                firstMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqualAndAmountLessThenEqualMax((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
+                secondMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
+            }else{
+                firstMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
+                secondMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqualAndAmountLessThenEqualMax((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
+            }
+        }else{
+            firstMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
+            secondMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
         }
 
         List<ComparedItem> comparedItems = new LinkedList<>();
         firstMarketSet.stream().forEach(firstMarketItem -> {
             if (secondMarketSet.contains(firstMarketItem)) {
                 if (Stream.of(itemName.split(" ")).allMatch(firstMarketItem.getName().toLowerCase()::contains)) {
-                    Items secondMarketItem = secondMarketSet.stream().filter(firstMarketItem::equals).findAny().get();
+                    Item secondMarketItem = secondMarketSet.stream().filter(firstMarketItem::equals).findAny().get();
                     ComparedItem item = new ComparedItem(firstMarketItem, secondMarketItem);
                     if(firstToSecondMinPerCent <= item.getFirstToSecondProfit() && item.getFirstToSecondProfit() <= firstToSecondMaxPerCent
                             && secondToFirstMinPerCent <= item.getSecondToFirstProfit() && item.getSecondToFirstProfit() <= secondToFirstMaxPerCent) {

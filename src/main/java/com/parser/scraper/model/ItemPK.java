@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class ItemsPK implements Serializable {
+public class ItemPK implements Serializable {
     private String name;
     private int marketId;
 }

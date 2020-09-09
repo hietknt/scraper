@@ -1,7 +1,7 @@
 package com.parser.scraper.service.updater;
 
-import com.parser.scraper.model.Items;
-import com.parser.scraper.repository.ItemsRepository;
+import com.parser.scraper.model.Item;
+import com.parser.scraper.repository.ItemRepository;
 import com.parser.scraper.service.parse.steam.lootfarm.ItemLootfarm;
 import com.parser.scraper.service.parse.steam.lootfarm.ParseLootfarm;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.Iterator;
 public class UpdateLootfarm implements UpdateItems {
 
     private final ParseLootfarm lootfarm;
-    private final ItemsRepository repository;
+    private final ItemRepository repository;
 
     @Override
     public void updateItemsInfo(long gameId) {
@@ -30,7 +30,7 @@ public class UpdateLootfarm implements UpdateItems {
                 Iterator<ItemLootfarm> iterator = lootfarm.parse(String.valueOf(gameId)).iterator();
                 while (iterator.hasNext()) {
                     ItemLootfarm item = iterator.next();
-                    repository.save(new Items(item.getName(), item.getPrice(), item.getHave(), item.getMax(),
+                    repository.save(new Item(item.getName(), item.getPrice(), item.getHave(), item.getMax(),
                             item.getMarketId(), gameId));
                 }
                 time = System.currentTimeMillis() - startTime;

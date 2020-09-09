@@ -9,9 +9,9 @@ import java.util.Objects;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(schema = "tests", name = "Items")
-@IdClass(ItemsPK.class)
-public class Items {
+@Table(schema = "tests", name = "Item")
+@IdClass(ItemPK.class)
+public class Item {
 
     @Id
     @AttributeOverrides({
@@ -27,7 +27,7 @@ public class Items {
     private int max;
     private long gameId;
 
-    public Items(String name, double price, int amount, int max, int marketId, long gameId) {
+    public Item(String name, double price, int amount, int max, int marketId, long gameId) {
         this.name = name;
         this.price = price;
         this.amount = amount;
@@ -40,8 +40,8 @@ public class Items {
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
-        Items items = (Items) object;
-        return name.equals(items.name);
+        Item item = (Item) object;
+        return name.equals(item.name);
     }
 
     @Override

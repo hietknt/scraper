@@ -1,7 +1,7 @@
 package com.parser.scraper.service.updater;
 
-import com.parser.scraper.model.Items;
-import com.parser.scraper.repository.ItemsRepository;
+import com.parser.scraper.model.Item;
+import com.parser.scraper.repository.ItemRepository;
 import com.parser.scraper.service.parse.steam.tradeit.ParseTradeit;
 import com.parser.scraper.service.parse.steam.tradeit.jsonBlocks.ItemInfo;
 import com.parser.scraper.service.parse.steam.tradeit.jsonBlocks.ItemTradeit;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class UpdateTradeit implements UpdateItems {
 
     private final ParseTradeit tradeit;
-    private final ItemsRepository repository;
+    private final ItemRepository repository;
 
     @Override
     public void updateItemsInfo(long gameId) {
@@ -35,7 +35,7 @@ public class UpdateTradeit implements UpdateItems {
                     if (item.size() != 0) {
                         for (Map.Entry<String, ItemInfo> map : item.entrySet()) {
                             ItemInfo info = map.getValue();
-                            repository.save(new Items(map.getKey(), info.getPrice(), info.getAmount(), info.getMaxAmount(),
+                            repository.save(new Item(map.getKey(), info.getPrice(), info.getAmount(), info.getMaxAmount(),
                                     info.getMarketId(), gameId));
                         }
                     }
