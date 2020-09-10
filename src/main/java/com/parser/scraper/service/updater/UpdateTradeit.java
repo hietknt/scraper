@@ -10,9 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -25,7 +23,9 @@ public class UpdateTradeit implements UpdateItems {
     @Override
     public void updateItemsInfo(long gameId) {
         long startTime, time;
+        List<Item> itemList = new LinkedList<>();
         for (; ; ) {
+            itemList.clear();
             try {
                 log.info("TradeIt id " + gameId + " updater start at: " + new Date());
                 startTime = System.currentTimeMillis();
@@ -35,11 +35,20 @@ public class UpdateTradeit implements UpdateItems {
                     if (item.size() != 0) {
                         for (Map.Entry<String, ItemInfo> map : item.entrySet()) {
                             ItemInfo info = map.getValue();
-                            repository.save(new Item(map.getKey(), info.getPrice(), info.getAmount(), info.getMaxAmount(),
-                                    info.getMarketId(), gameId));
+
+                            if(itemList.stream().filter(object -> object.getName().equals(map.getKey())).findFirst().isPresent()){
+                                itemList.stream().filter(object -> object.getName().equals(map.getKey())).findFirst().get().incrementAmount();
+                            }else {
+                                itemList.add(new Item(map.getKey(), info.getPrice(), info.getAmount(), info.getMaxAmount(),
+                                        info.getMarketId(), gameId));
+                            }
                         }
                     }
                 }
+                if(itemList != null) {
+                    repository.saveAll(itemList);
+                }
+
                 time = System.currentTimeMillis() - startTime;
                 log.info("TradeIt id " + gameId + " updater end. Execution lasted: " + time + " ms");
             } catch (Exception ex) {

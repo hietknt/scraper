@@ -30,7 +30,7 @@ public class ItemInfo {
     @Getter @Setter private int maxAmount;
 
     @Getter int marketId = 2;
-    @Getter int amount = 0;
+    @Getter int amount = 1;
 
     public void setQuality(String quality) {
         if (this.qualityMap.get(quality) != null) {

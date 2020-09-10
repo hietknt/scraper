@@ -48,4 +48,8 @@ public class Item {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    public void incrementAmount(){
+        this.amount += 1;
+    }
 }
