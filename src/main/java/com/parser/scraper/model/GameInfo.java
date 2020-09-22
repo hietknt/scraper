@@ -15,4 +15,9 @@ public class GameInfo {
     @Id
     long gameId;
     String gameName;
+
+    public GameInfo(long gameId, String gameName) {
+        this.gameId = gameId;
+        this.gameName = gameName;
+    }
 }

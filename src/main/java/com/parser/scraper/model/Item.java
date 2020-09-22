@@ -46,7 +46,7 @@ public class Item {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return name.hashCode();
     }
 
     public void incrementAmount(){

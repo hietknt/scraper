@@ -12,15 +12,7 @@ public class ComparedItem {
     public ComparedItem(Item firstService, Item secondService) {
         this.firstService = firstService;
         this.secondService = secondService;
-        this.firstToSecondProfit = (secondService.getPrice()/firstService.getPrice() - 1.0) * 100.0;
-        this.secondToFirstProfit = (firstService.getPrice()/secondService.getPrice() - 1.0) * 100.0;
-    }
-
-    public double getFirstServicePrice(){
-        return this.firstService.getPrice();
-    }
-
-    public double getSecondServicePrice(){
-        return this.secondService.getPrice();
+        this.firstToSecondProfit = Math.round((secondService.getPrice()/firstService.getPrice() - 1.0) * 10000.0)/ 100.0;
+        this.secondToFirstProfit = Math.round((firstService.getPrice()/secondService.getPrice() - 1.0) * 10000.0)/ 100.0;
     }
 }

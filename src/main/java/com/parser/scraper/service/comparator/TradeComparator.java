@@ -12,11 +12,11 @@ public class TradeComparator {
 
     public Comparator getSecondToFirst(){ return Comparator.comparingDouble(ComparedItem::getFirstToSecondProfit); }
 
-    public Comparator getFirstServicePriceAsc(){ return Comparator.comparingDouble(ComparedItem::getFirstServicePrice); }
-    public Comparator getFirstServicePriceDesc(){ return Comparator.comparingDouble(ComparedItem::getFirstServicePrice).reversed(); }
+    public Comparator getFirstServicePriceAsc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getFirstService().getPrice()); }
+    public Comparator getFirstServicePriceDesc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getFirstService().getPrice()).reversed(); }
 
-    public Comparator getSecondServicePriceAsc(){ return Comparator.comparingDouble(ComparedItem::getSecondServicePrice); }
-    public Comparator getSecondServicePriceDesc(){ return Comparator.comparingDouble(ComparedItem::getSecondServicePrice).reversed(); }
+    public Comparator getSecondServicePriceAsc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getSecondService().getPrice()); }
+    public Comparator getSecondServicePriceDesc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getSecondService().getPrice()).reversed(); }
 
 
 

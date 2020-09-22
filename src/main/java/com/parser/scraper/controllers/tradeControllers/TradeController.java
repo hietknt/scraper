@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 
 @Controller
-@RequestMapping(value = "/trade")
+@RequestMapping("/trade")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TradeController {
 
@@ -42,7 +42,7 @@ public class TradeController {
     }
 
     @GetMapping("/{game}")
-    private String compareCsgo(@RequestParam(required = false, defaultValue = "5.0") double minPrice,
+    private String compareGame(@RequestParam(required = false, defaultValue = "5.0") double minPrice,
                                @RequestParam(required = false, defaultValue = "50.0") double maxPrice,
                                @RequestParam(required = false, defaultValue = "false") boolean isOverStocked,
                                @RequestParam(required = false, defaultValue = "lootfarm,tradeit") List<String> service,
@@ -100,8 +100,8 @@ public class TradeController {
             secondMarketPlace = marketPlaces.stream().filter(object -> object.getName().equals("tradeit")).findFirst().get();
         }
 
-        Set<Item> firstMarketSet;
-        Set<Item> secondMarketSet;
+        List<Item> firstMarketSet;
+        List<Item> secondMarketSet;
         if (isOverStocked == true){
             if(order.equals("second_first")){
                 firstMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqualAndAmountLessThenEqualMax((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
