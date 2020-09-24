@@ -18,15 +18,15 @@ Vue.component('items-list',{
         '<item-row v-for="item in items" :key="item.id ":item="item" />' +
     '</tbody>',
     created: function() {
-        this.getTemp();
+        this.getRequest();
     },
     mounted: function(){
         setInterval(() => {
-            this.getTemp();
+            this.getRequest();
         }, 3000)
     },
     methods: {
-        getTemp: function() {
+        getRequest: function() {
             axios
                 .get(this.apiUrl + this.gameId, {params:this.params})
                 .then(result => app.items = result.data)

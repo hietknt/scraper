@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html dir="ltr" lang="en">
 <head>
@@ -17,8 +16,17 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript">
-        function setGetParameter(paramName, paramValue){
+        function setGetParamsForm(){
+            app.params.minPrice = $("#minPrice").val();
+            app.params.maxPrice = $("#maxPrice").val();
+            app.params.isOverStocked = $("#isOverstocked").is(":checked");
 
+            if($('[name="service"]:checked').length == 2){
+                app.params.firstMarket = $('[name="service"]:checked')[0].value;
+                app.params.secondMarket = $('[name="service"]:checked')[1].value;
+            }
+
+            app.$children[0].getRequest();
         }
 
         function copy(element) {
@@ -43,6 +51,21 @@
             $("#itemName").val(app.params.itemName);
             $("#minPrice").val(app.params.minPrice);
             $("#maxPrice").val(app.params.maxPrice);
+        })
+
+        $(document).ready(function () {
+            $('[name="service"]').click(function(){
+                var checkedCount = $('[name="service"]:checked').length;
+                if(checkedCount == 2){
+                    $('[name="service"]:not(:checked)').each(function(){
+                        $(this).attr("disabled", true);
+                    })
+                } else{
+                    $('[name="service"]:not(:checked)').each(function(){
+                        $(this).attr("disabled", false);
+                    })
+                }
+            })
         });
     </script>
 
@@ -129,7 +152,7 @@
             </div>
             <div class="col-12 bg-secondary pt-3">
                 <div class="row justify-content-center align-items-center">
-                    <button type="submit" class="btn btn-dark mt-n2" onclick="someFunc()">COMPARE</button>
+                    <a class="btn btn-dark mt-n2" onclick="setGetParamsForm()">COMPARE</a>
                 </div>
             </div>
         </form>
@@ -153,7 +176,7 @@
                     <tr>
                         <th scope="col">
                             <div>
-                                <a class="btn btn-outline-secondary btn-sm" @click="sort('name')">
+                                <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder = 'none'; app.$children[0].getRequest();">
                                     <span>
                                         NAME
                                     </span>
@@ -161,58 +184,57 @@
                             </div>
                             <div class="container">
                                 <div class="row mt-1">
-                                    <!--<input id="itemName" type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME" onchange="setGetParameter('itemName', $(this).val())">-->
-                                    <input id="itemName" type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME" onchange="app.params.itemName = $(this).val(); app.$children[0].getTemp();">
+                                    <input id="itemName" type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME" onchange="app.params.itemName = $(this).val(); app.$children[0].getRequest();">
                                 </div>
                             </div>
                         </th>
                         <th class="text-center" scope="col"/>
                         <div>
-                            <a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('sortOrder', 'first_price_asc')">
+                            <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder != 'first_price_asc' ? app.params.sortOrder = 'first_price_asc' : app.params.sortOrder = 'first_price_desc'; app.$children[0].getRequest();">
                                 <span th:text="${firstService}"/>
                             </a>
                         </div>
                         <div class="row mt-1 d-flex justify-content-center">
-                            <input id="firstServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" value="" onchange="setGetParameter('firstServiceMinCount', $(this).val())">
-                            <input id="firstServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('firstServiceMaxCount', $(this).val())">
+                            <input id="firstServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" value="" onchange="app.params.firstServiceMinCount = $(this).val(); app.$children[0].getRequest();">
+                            <input id="firstServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.firstServiceMaxCount = $(this).val(); app.$children[0].getRequest();">
                         </div>
                         </th>
                         <th class="text-center" scope="col">
                             <div>
-                                <a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('sortOrder', 'second_price_asc')">
+                                <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder != 'second_price_asc' ? app.params.sortOrder = 'second_price_asc' : app.params.sortOrder = 'second_price_desc'; app.$children[0].getRequest();">
                                     <span th:text="${secondService}"/>
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input id="secondServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="setGetParameter('secondServiceMinCount', $(this).val())">
-                                <input id="secondServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('secondServiceMaxCount', $(this).val())">
+                                <input id="secondServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="app.params.secondServiceMinCount = $(this).val(); app.$children[0].getRequest();">
+                                <input id="secondServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.secondServiceMaxCount = $(this).val(); app.$children[0].getRequest();">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
 
                             <div>
-                                <a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('sortOrder', 'first_second')">
+                                <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder = 'first_second'; app.$children[0].getRequest();">
                                     <span th:text="${firstService}"/>
                                     &nbsp;&#8594;&nbsp;
                                     <span th:text="${secondService}"/>
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input id="firstToSecondMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="setGetParameter('firstToSecondMinPerCent', $(this).val())">
-                                <input id="firstToSecondMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('firstToSecondMaxPerCent', $(this).val())">
+                                <input id="firstToSecondMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="app.params.firstToSecondMinPerCent = $(this).val(); app.$children[0].getRequest();">
+                                <input id="firstToSecondMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.firstToSecondMaxPerCent = $(this).val(); app.$children[0].getRequest();">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
                             <div>
-                                <a class="btn btn-outline-secondary btn-sm" onclick="setGetParameter('sortOrder', 'second_first')">
+                                <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder = 'second_first'; app.$children[0].getRequest();">
                                     <span th:text="${secondService}"/>
                                     &nbsp;&#8594;&nbsp;
                                     <span th:text="${firstService}"/>
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input id="secondToFirstMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="setGetParameter('secondToFirstMinPerCent', $(this).val())">
-                                <input id="secondToFirstMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-2 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="setGetParameter('secondToFirstMaxPerCent', $(this).val())">
+                                <input id="secondToFirstMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="app.params.secondToFirstMinPerCent = $(this).val(); app.$children[0].getRequest();">
+                                <input id="secondToFirstMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.secondToFirstMaxPerCent = $(this).val(); app.$children[0].getRequest();">
                             </div>
                         </th>
                     </tr>
