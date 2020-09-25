@@ -3,11 +3,11 @@ Vue.component('item-row', {
     props: ['item'],
     template:
     '<tr>' +
-        '<td class="align-middle"><span class="cursor" onclick="copy(this)">{{ item.firstService.name }}</span></td>' +
-        '<td class="align-middle text-center">{{ item.firstService.price }}$<br>[{{ item.firstService.amount}}/{{ item.firstService.max}}]</td>' +
-        '<td class="align-middle text-center">{{ item.secondService.price }}$<br>[{{ item.secondService.amount}}/{{ item.secondService.max }}]</td>' +
-        '<td class="align-middle text-center">{{ item.firstToSecondProfit }}%</td>' +
-        '<td class="align-middle text-center">{{ item.secondToFirstProfit }}%</td>' +
+        '<td class="align-middle"><span class="cursor" onclick="copy(this)">{{ item.name }}</span></td>' +
+        '<td class="align-middle text-center">{{ item.firstPrice }}$<br>[{{ item.firstAmount}}/{{ item.firstMax}}]</td>' +
+        '<td class="align-middle text-center">{{ item.secondPrice }}$<br>[{{ item.secondAmount}}/{{ item.secondMax }}]</td>' +
+        '<td class="align-middle text-center">{{ item.secondToFirstPercent }}%</td>' +
+        '<td class="align-middle text-center">{{ item.firstToSecondPercent }}%</td>' +
     '</tr>'
 });
 
@@ -48,6 +48,7 @@ const app = new Vue({
         maxPrice: 10000.0,
         isOverStocked: false,
         sortOrder: 'none',
+        itemName: '',
 
         firstServiceMinCount: 0,
         firstServiceMaxCount: 10000,
@@ -59,7 +60,7 @@ const app = new Vue({
         secondToFirstMinPerCent: -1000.0,
         secondToFirstMaxPerCent: 1000.0,
 
-        itemName: ''
+        itemSize: 25
     }
   }
 });

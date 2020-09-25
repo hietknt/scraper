@@ -66,6 +66,17 @@
                     })
                 }
             })
+
+            $("a").click(function(){
+                app.params.itemSize = 25;
+            })
+
+            window.onscroll = function(ev) {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    app.params.itemSize = app.params.itemSize + 25;
+                    app.$children[0].getRequest();
+                }
+            };
         });
     </script>
 

@@ -1,6 +1,7 @@
 package com.parser.scraper.service.comparator;
 
 import com.parser.scraper.model.ComparedItem;
+import com.parser.scraper.model.TempComparedItem;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -8,15 +9,15 @@ import java.util.Comparator;
 @Component
 public class TradeComparator {
 
-    public Comparator getFirstToSecond(){ return Comparator.comparingDouble(ComparedItem::getSecondToFirstProfit); }
+    public Comparator getFirstToSecond(){ return Comparator.comparingDouble(TempComparedItem::getFirstToSecondPercent); }
 
-    public Comparator getSecondToFirst(){ return Comparator.comparingDouble(ComparedItem::getFirstToSecondProfit); }
+    public Comparator getSecondToFirst(){ return Comparator.comparingDouble(TempComparedItem::getSecondToFirstPercent); }
 
-    public Comparator getFirstServicePriceAsc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getFirstService().getPrice()); }
-    public Comparator getFirstServicePriceDesc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getFirstService().getPrice()).reversed(); }
+    public Comparator getFirstServicePriceAsc(){ return Comparator.comparingDouble(TempComparedItem::getFirstPrice); }
+    public Comparator getFirstServicePriceDesc(){ return Comparator.comparingDouble(TempComparedItem::getFirstPrice).reversed(); }
 
-    public Comparator getSecondServicePriceAsc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getSecondService().getPrice()); }
-    public Comparator getSecondServicePriceDesc(){ return Comparator.comparingDouble((ComparedItem item) -> item.getSecondService().getPrice()).reversed(); }
+    public Comparator getSecondServicePriceAsc(){ return Comparator.comparingDouble(TempComparedItem::getSecondPrice); }
+    public Comparator getSecondServicePriceDesc(){ return Comparator.comparingDouble(TempComparedItem::getSecondPrice).reversed(); }
 
 
 

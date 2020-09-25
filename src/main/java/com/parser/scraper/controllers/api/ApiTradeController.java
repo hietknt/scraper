@@ -3,6 +3,8 @@ package com.parser.scraper.controllers.api;
 import com.parser.scraper.model.ComparedItem;
 import com.parser.scraper.model.Item;
 import com.parser.scraper.model.MarketPlace;
+import com.parser.scraper.model.TempComparedItem;
+import com.parser.scraper.repository.ComparedItemRepository;
 import com.parser.scraper.repository.ItemRepository;
 import com.parser.scraper.repository.MarketPlaceRepository;
 import com.parser.scraper.service.comparator.TradeComparator;
@@ -20,6 +22,7 @@ public class ApiTradeController {
     private final MarketPlaceRepository marketPlaceRepository;
     private final ItemRepository itemRepository;
     private final TradeComparator tradeComparator;
+    private final ComparedItemRepository comparedItemRepository;
 
     @GetMapping("/getAll/{gameId}")
     public List<Item> getAll(@PathVariable long gameId){
@@ -76,7 +79,7 @@ public class ApiTradeController {
     }
 
     @GetMapping("getComparedWithFullParams/{gameId}")
-    public List<ComparedItem> getComparedWithFullParams(@RequestParam double minPrice,
+    public List<TempComparedItem> getComparedWithFullParams(@RequestParam double minPrice,
                                                         @RequestParam double maxPrice,
                                                         @RequestParam boolean isOverStocked,
                                                         @RequestParam String firstMarket,
@@ -91,6 +94,7 @@ public class ApiTradeController {
                                                         @RequestParam double secondToFirstMinPerCent,
                                                         @RequestParam double secondToFirstMaxPerCent,
                                                         @RequestParam String itemName,
+                                                        @RequestParam int itemSize,
                                                         @PathVariable long gameId){
 
         if (firstServiceMinCount < 0){ firstServiceMinCount = 0; }
@@ -110,32 +114,22 @@ public class ApiTradeController {
             secondMarketPlace = marketPlaces.stream().filter(object -> object.getName().equals("tradeit")).findFirst().get();
         }
 
-        List<Item> firstMarketSet;
-        List<Item> secondMarketSet;
+        List<TempComparedItem> items;
+
         if (isOverStocked == true){
             if(sortOrder.equals("second_first")){
-                firstMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqualAndAmountLessThenEqualMax((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
-                secondMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
+                items = comparedItemRepository.getToFirstOverstock(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent);
             }else{
-                firstMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
-                secondMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqualAndAmountLessThenEqualMax((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
+                items = comparedItemRepository.getToSecondOverstock(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent);
             }
         }else{
-            firstMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) firstMarketPlace.getId(), gameId, maxPrice, minPrice, firstServiceMinCount, firstServiceMaxCount);
-            secondMarketSet = itemRepository.findByMarketIdAndGameIdAndPriceLessThanAndPriceGreaterThanAndAmountGreaterThanEqualAndAmountLessThanEqual((int) secondMarketPlace.getId(), gameId, maxPrice, minPrice, secondServiceMinCount, secondServiceMaxCount);
+            items = comparedItemRepository.getFull(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent);
         }
 
-        List<ComparedItem> comparedItems = new LinkedList<>();
-        firstMarketSet.stream().forEach(firstMarketItem -> {
-            if (secondMarketSet.contains(firstMarketItem)) {
-                if (Stream.of(itemName.toLowerCase().split(" ")).allMatch(firstMarketItem.getName().toLowerCase()::contains)) {
-                    Item secondMarketItem = secondMarketSet.stream().filter(firstMarketItem::equals).findAny().get();
-                    ComparedItem item = new ComparedItem(firstMarketItem, secondMarketItem);
-                    if(firstToSecondMinPerCent <= item.getFirstToSecondProfit() && item.getFirstToSecondProfit() <= firstToSecondMaxPerCent
-                            && secondToFirstMinPerCent <= item.getSecondToFirstProfit() && item.getSecondToFirstProfit() <= secondToFirstMaxPerCent) {
-                        comparedItems.add(item);
-                    }
-                }
+        List<TempComparedItem> comparedItems = new LinkedList<>();
+        items.stream().forEach(item -> {
+            if (Stream.of(itemName.toLowerCase().split(" ")).allMatch(item.getName().toLowerCase()::contains)){
+                comparedItems.add(item);
             }
         });
 
@@ -153,7 +147,7 @@ public class ApiTradeController {
             Collections.sort(comparedItems, tradeComparator.getSecondServicePriceDesc());
         }
 
-        return comparedItems;
+        return comparedItems.size() >= itemSize ? comparedItems.subList(0, itemSize) : comparedItems.subList(0, comparedItems.size());
     }
 
     private List<ComparedItem> compare(List<Item> firstMarketSet, List<Item> secondMarketSet){
