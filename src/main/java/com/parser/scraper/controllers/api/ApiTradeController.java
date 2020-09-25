@@ -79,22 +79,23 @@ public class ApiTradeController {
     }
 
     @GetMapping("getComparedWithFullParams/{gameId}")
-    public List<TempComparedItem> getComparedWithFullParams(@RequestParam double minPrice,
-                                                        @RequestParam double maxPrice,
-                                                        @RequestParam boolean isOverStocked,
-                                                        @RequestParam String firstMarket,
-                                                        @RequestParam String secondMarket,
-                                                        @RequestParam String sortOrder,
-                                                        @RequestParam int firstServiceMinCount,
-                                                        @RequestParam int firstServiceMaxCount,
-                                                        @RequestParam int secondServiceMinCount,
-                                                        @RequestParam int secondServiceMaxCount,
-                                                        @RequestParam double firstToSecondMinPerCent,
-                                                        @RequestParam double firstToSecondMaxPerCent,
-                                                        @RequestParam double secondToFirstMinPerCent,
-                                                        @RequestParam double secondToFirstMaxPerCent,
-                                                        @RequestParam String itemName,
-                                                        @RequestParam int itemSize,
+    public List<TempComparedItem> getComparedWithFullParams(
+                                                        @RequestParam(required = false, defaultValue = "0") double minPrice,
+                                                        @RequestParam(required = false, defaultValue = "10000") double maxPrice,
+                                                        @RequestParam(required = false, defaultValue = "false") boolean isOverStocked,
+                                                        @RequestParam(required = false, defaultValue = "lootfarm") String firstMarket,
+                                                        @RequestParam(required = false, defaultValue = "tradeit") String secondMarket,
+                                                        @RequestParam(required = false, defaultValue = "none") String sortOrder,
+                                                        @RequestParam(required = false, defaultValue = "0") int firstServiceMinCount,
+                                                        @RequestParam(required = false, defaultValue = "10000") int firstServiceMaxCount,
+                                                        @RequestParam(required = false, defaultValue = "0") int secondServiceMinCount,
+                                                        @RequestParam(required = false, defaultValue = "10000") int secondServiceMaxCount,
+                                                        @RequestParam(required = false, defaultValue = "-1000") double firstToSecondMinPerCent,
+                                                        @RequestParam(required = false, defaultValue = "1000") double firstToSecondMaxPerCent,
+                                                        @RequestParam(required = false, defaultValue = "-1000") double secondToFirstMinPerCent,
+                                                        @RequestParam(required = false, defaultValue = "1000") double secondToFirstMaxPerCent,
+                                                        @RequestParam(required = false, defaultValue = "") String itemName,
+                                                        @RequestParam(required = false, defaultValue = "25") int itemSize,
                                                         @PathVariable long gameId){
 
         if (firstServiceMinCount < 0){ firstServiceMinCount = 0; }

@@ -1,5 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
-<html dir="ltr" lang="en">
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title th:text="${title}"/>
@@ -195,7 +194,7 @@
                             </div>
                             <div class="container">
                                 <div class="row mt-1">
-                                    <input id="itemName" type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME" onchange="app.params.itemName = $(this).val(); app.$children[0].getRequest();">
+                                    <input id="itemName" type="text" class="form-control form-control-sm h-75 col-11 col-xl-11 bg-light border border-dark text-center" placeholder="ITEM NAME" oninput="app.params.itemName = $(this).val(); app.$children[0].getRequest();">
                                 </div>
                             </div>
                         </th>
@@ -206,8 +205,8 @@
                             </a>
                         </div>
                         <div class="row mt-1 d-flex justify-content-center">
-                            <input id="firstServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" value="" onchange="app.params.firstServiceMinCount = $(this).val(); app.$children[0].getRequest();">
-                            <input id="firstServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.firstServiceMaxCount = $(this).val(); app.$children[0].getRequest();">
+                            <input id="firstServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" value="" oninput="app.params.firstServiceMinCount = $(this).val(); app.$children[0].getRequest();">
+                            <input id="firstServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" oninput="app.params.firstServiceMaxCount = $(this).val(); app.$children[0].getRequest();">
                         </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -217,8 +216,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input id="secondServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="app.params.secondServiceMinCount = $(this).val(); app.$children[0].getRequest();">
-                                <input id="secondServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.secondServiceMaxCount = $(this).val(); app.$children[0].getRequest();">
+                                <input id="secondServiceMinCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" oninput="app.params.secondServiceMinCount = $(this).val(); app.$children[0].getRequest();">
+                                <input id="secondServiceMaxCount" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" oninput="app.params.secondServiceMaxCount = $(this).val(); app.$children[0].getRequest();">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -231,8 +230,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input id="firstToSecondMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="app.params.firstToSecondMinPerCent = $(this).val(); app.$children[0].getRequest();">
-                                <input id="firstToSecondMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.firstToSecondMaxPerCent = $(this).val(); app.$children[0].getRequest();">
+                                <input id="firstToSecondMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" oninput="app.params.firstToSecondMinPerCent = $(this).val(); app.$children[0].getRequest();">
+                                <input id="firstToSecondMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" oninput="app.params.firstToSecondMaxPerCent = $(this).val(); app.$children[0].getRequest();">
                             </div>
                         </th>
                         <th class="text-center" scope="col">
@@ -244,8 +243,8 @@
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
-                                <input id="secondToFirstMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" onchange="app.params.secondToFirstMinPerCent = $(this).val(); app.$children[0].getRequest();">
-                                <input id="secondToFirstMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" onchange="app.params.secondToFirstMaxPerCent = $(this).val(); app.$children[0].getRequest();">
+                                <input id="secondToFirstMinPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 mr-1 bg-light border border-dark text-center" placeholder="FROM" oninput="app.params.secondToFirstMinPerCent = $(this).val(); app.$children[0].getRequest();">
+                                <input id="secondToFirstMaxPerCent" type="number" class="form-control form-control-sm h-75 col-4 col-xl-3 ml-1 bg-light border border-dark text-center" placeholder="TO" oninput="app.params.secondToFirstMaxPerCent = $(this).val(); app.$children[0].getRequest();">
                             </div>
                         </th>
                     </tr>
