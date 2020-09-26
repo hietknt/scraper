@@ -96,6 +96,7 @@ public class ApiTradeController {
                                                         @RequestParam(required = false, defaultValue = "1000") double secondToFirstMaxPerCent,
                                                         @RequestParam(required = false, defaultValue = "") String itemName,
                                                         @RequestParam(required = false, defaultValue = "25") int itemSize,
+                                                        @RequestParam(required = false, defaultValue = "24:00:00") String timeFromLastUpdate,
                                                         @PathVariable long gameId){
 
         if (firstServiceMinCount < 0){ firstServiceMinCount = 0; }
@@ -119,12 +120,12 @@ public class ApiTradeController {
 
         if (isOverStocked == true){
             if(sortOrder.equals("second_first")){
-                items = comparedItemRepository.getToFirstOverstock(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent);
+                items = comparedItemRepository.getToFirstOverstock(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent, timeFromLastUpdate);
             }else{
-                items = comparedItemRepository.getToSecondOverstock(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent);
+                items = comparedItemRepository.getToSecondOverstock(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent, timeFromLastUpdate);
             }
         }else{
-            items = comparedItemRepository.getFull(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent);
+            items = comparedItemRepository.getFull(gameId, (int) firstMarketPlace.getId(), (int) secondMarketPlace.getId(), minPrice, maxPrice, firstServiceMinCount, firstServiceMaxCount, secondServiceMinCount, secondServiceMaxCount, firstToSecondMinPerCent, firstToSecondMaxPerCent, secondToFirstMinPerCent, secondToFirstMaxPerCent, timeFromLastUpdate);
         }
 
         List<TempComparedItem> comparedItems = new LinkedList<>();

@@ -60,7 +60,8 @@ const app = new Vue({
         secondToFirstMinPerCent: -1000.0,
         secondToFirstMaxPerCent: 1000.0,
 
-        itemSize: 25
+        itemSize: 25,
+        timeFromLastUpdate: '24:00:00'
     }
   }
 });

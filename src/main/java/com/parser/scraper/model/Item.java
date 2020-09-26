@@ -2,9 +2,10 @@ package com.parser.scraper.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -26,6 +27,9 @@ public class Item {
     private int amount;
     private int max;
     private long gameId;
+
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;
 
     public Item(String name, double price, int amount, int max, int marketId, long gameId) {
         this.name = name;

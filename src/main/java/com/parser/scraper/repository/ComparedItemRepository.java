@@ -26,6 +26,8 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
             "AND t2.amount >= ?8 AND t2.amount < ?9\n" +
             "AND (t1.price/t2.price-1)*100 > ?10 AND (t1.price/t2.price-1)*100 < ?11\n" +
             "AND (t2.price/t1.price-1)*100 > ?12 AND (t2.price/t1.price-1)*100 < ?13\n" +
+            "AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
+            "AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
     public List<TempComparedItem> getFull(long gameId, int firstMarketId, int secondMarketId,
@@ -33,7 +35,8 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
                                           int firstServiceMinCount, int firstServiceMaxCount,
                                           int secondServiceMinCount, int secondServiceMaxCount,
                                           double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
-                                          double secondToFirstMinPerCent, double secondToFirstMaxPerCent);
+                                          double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
+                                          String timeFromLastUpdate);
 
     @Query(value = "SELECT \n" +
             "t1.name, t1.amount AS first_amount, t1.max AS first_max, t1.price AS first_price,\n" +
@@ -52,6 +55,7 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
             "AND (t1.price/t2.price-1)*100 > ?10 AND (t1.price/t2.price-1)*100 < ?11\n" +
             "AND (t2.price/t1.price-1)*100 > ?12 AND (t2.price/t1.price-1)*100 < ?13\n" +
             "AND t1.amount < t1.max\n" +
+            "AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
     public List<TempComparedItem> getToFirstOverstock(long gameId, int firstMarketId, int secondMarketId,
@@ -59,7 +63,8 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
                                        int firstServiceMinCount, int firstServiceMaxCount,
                                        int secondServiceMinCount, int secondServiceMaxCount,
                                        double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
-                                       double secondToFirstMinPerCent, double secondToFirstMaxPerCent);
+                                       double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
+                                       String timeFromLastUpdate);
 
     @Query(value = "SELECT \n" +
             "t1.name, t1.amount AS first_amount, t1.max AS first_max, t1.price AS first_price,\n" +
@@ -78,6 +83,7 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
             "AND (t1.price/t2.price-1)*100 > ?10 AND (t1.price/t2.price-1)*100 < ?11\n" +
             "AND (t2.price/t1.price-1)*100 > ?12 AND (t2.price/t1.price-1)*100 < ?13\n" +
             "AND t2.amount < t2.max\n" +
+            "AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
     public List<TempComparedItem> getToSecondOverstock(long gameId, int firstMarketId, int secondMarketId,
@@ -85,5 +91,6 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
                                                       int firstServiceMinCount, int firstServiceMaxCount,
                                                       int secondServiceMinCount, int secondServiceMaxCount,
                                                       double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
-                                                      double secondToFirstMinPerCent, double secondToFirstMaxPerCent);
+                                                      double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
+                                                      String timeFromLastUpdate);
 }
