@@ -1,18 +1,25 @@
 package com.parser.scraper.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Data
+@NoArgsConstructor
+@Entity
 public class ComparedItem {
-    @Getter @Setter private Item firstService;
-    @Getter @Setter private Item secondService;
-    @Getter @Setter private double firstToSecondProfit;
-    @Getter @Setter private double secondToFirstProfit;
+    @Id
+    private String name;
+    private int firstAmount;
+    private int firstMax;
+    private double firstPrice;
 
-    public ComparedItem(Item firstService, Item secondService) {
-        this.firstService = firstService;
-        this.secondService = secondService;
-        this.firstToSecondProfit = Math.round((secondService.getPrice()/firstService.getPrice() - 1.0) * 10000.0)/ 100.0;
-        this.secondToFirstProfit = Math.round((firstService.getPrice()/secondService.getPrice() - 1.0) * 10000.0)/ 100.0;
-    }
+    private int secondAmount;
+    private int secondMax;
+    private double secondPrice;
+
+    private double firstToSecondPercent;
+    private double secondToFirstPercent;
 }

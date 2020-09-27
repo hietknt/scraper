@@ -1,4 +1,3 @@
-
 Vue.component('item-row', {
     props: ['item'],
     template:

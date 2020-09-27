@@ -35,7 +35,8 @@ public class ParseTradeit implements Parse {
 
         ArrayDeque<ItemTradeit> items = null;
         try {
-            items = objectMapper.readValue(json, new TypeReference<ArrayDeque<ItemTradeit>>() {});
+            items = objectMapper.readValue(json, new TypeReference<ArrayDeque<ItemTradeit>>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

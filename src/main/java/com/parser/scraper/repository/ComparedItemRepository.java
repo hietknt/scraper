@@ -1,6 +1,6 @@
 package com.parser.scraper.repository;
 
-import com.parser.scraper.model.TempComparedItem;
+import com.parser.scraper.model.ComparedItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ComparedItemRepository extends JpaRepository<TempComparedItem, Long> {
+public interface ComparedItemRepository extends JpaRepository<ComparedItem, Long> {
 
     @Query(value = "SELECT \n" +
             "t1.name, t1.amount AS first_amount, t1.max AS first_max, t1.price AS first_price,\n" +
@@ -30,13 +30,13 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
             "AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
-    public List<TempComparedItem> getFull(long gameId, int firstMarketId, int secondMarketId,
-                                          double minPrice, double maxPrice,
-                                          int firstServiceMinCount, int firstServiceMaxCount,
-                                          int secondServiceMinCount, int secondServiceMaxCount,
-                                          double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
-                                          double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
-                                          String timeFromLastUpdate);
+    List<ComparedItem> getFull(long gameId, int firstMarketId, int secondMarketId,
+                               double minPrice, double maxPrice,
+                               int firstServiceMinCount, int firstServiceMaxCount,
+                               int secondServiceMinCount, int secondServiceMaxCount,
+                               double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
+                               double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
+                               String timeFromLastUpdate);
 
     @Query(value = "SELECT \n" +
             "t1.name, t1.amount AS first_amount, t1.max AS first_max, t1.price AS first_price,\n" +
@@ -58,13 +58,13 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
             "AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
-    public List<TempComparedItem> getToFirstOverstock(long gameId, int firstMarketId, int secondMarketId,
-                                       double minPrice, double maxPrice,
-                                       int firstServiceMinCount, int firstServiceMaxCount,
-                                       int secondServiceMinCount, int secondServiceMaxCount,
-                                       double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
-                                       double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
-                                       String timeFromLastUpdate);
+    List<ComparedItem> getToFirstOverstock(long gameId, int firstMarketId, int secondMarketId,
+                                           double minPrice, double maxPrice,
+                                           int firstServiceMinCount, int firstServiceMaxCount,
+                                           int secondServiceMinCount, int secondServiceMaxCount,
+                                           double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
+                                           double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
+                                           String timeFromLastUpdate);
 
     @Query(value = "SELECT \n" +
             "t1.name, t1.amount AS first_amount, t1.max AS first_max, t1.price AS first_price,\n" +
@@ -86,11 +86,11 @@ public interface ComparedItemRepository extends JpaRepository<TempComparedItem, 
             "AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
-    public List<TempComparedItem> getToSecondOverstock(long gameId, int firstMarketId, int secondMarketId,
-                                                      double minPrice, double maxPrice,
-                                                      int firstServiceMinCount, int firstServiceMaxCount,
-                                                      int secondServiceMinCount, int secondServiceMaxCount,
-                                                      double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
-                                                      double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
-                                                      String timeFromLastUpdate);
+    List<ComparedItem> getToSecondOverstock(long gameId, int firstMarketId, int secondMarketId,
+                                            double minPrice, double maxPrice,
+                                            int firstServiceMinCount, int firstServiceMaxCount,
+                                            int secondServiceMinCount, int secondServiceMaxCount,
+                                            double firstToSecondMinPerCent, double firstToSecondMaxPerCent,
+                                            double secondToFirstMinPerCent, double secondToFirstMaxPerCent,
+                                            String timeFromLastUpdate);
 }

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class PreloadDatabase {
 
     @Bean
-    public CommandLineRunner initGameDatabase(GameInfoRepository repository){
+    public CommandLineRunner initGameDatabase(GameInfoRepository repository) {
         return args -> {
             repository.save(new GameInfo(440, "tf2"));
             repository.save(new GameInfo(570, "dota2"));
@@ -23,7 +23,7 @@ public class PreloadDatabase {
     }
 
     @Bean
-    public CommandLineRunner initMarketPlaceDatabase(MarketPlaceRepository repository){
+    public CommandLineRunner initMarketPlaceDatabase(MarketPlaceRepository repository) {
         return args -> {
             repository.save(new MarketPlace(1, "lootfarm", 0.03, "https://loot.farm/"));
             repository.save(new MarketPlace(2, "tradeit", 0.05, "https://tradeit.gg/"));

@@ -53,7 +53,7 @@ public class Item {
         return name.hashCode();
     }
 
-    public void incrementAmount(){
+    public void incrementAmount() {
         this.amount += 1;
     }
 }

@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @Slf4j
@@ -37,16 +36,16 @@ public class UpdateTradeit implements UpdateItems {
                         for (Map.Entry<String, ItemInfo> map : item.entrySet()) {
                             ItemInfo info = map.getValue();
 
-                            if(itemList.stream().filter(object -> object.getName().equals(map.getKey())).findFirst().isPresent()){
+                            if (itemList.stream().filter(object -> object.getName().equals(map.getKey())).findFirst().isPresent()) {
                                 itemList.stream().filter(object -> object.getName().equals(map.getKey())).findFirst().get().incrementAmount();
-                            }else {
+                            } else {
                                 itemList.add(new Item(map.getKey(), info.getPrice(), info.getAmount(), info.getMaxAmount(),
                                         info.getMarketId(), gameId));
                             }
                         }
                     }
                 }
-                if(itemList != null) {
+                if (itemList != null) {
                     repository.saveAll(itemList);
                 }
 

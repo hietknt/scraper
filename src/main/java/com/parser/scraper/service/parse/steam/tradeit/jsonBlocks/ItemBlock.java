@@ -13,7 +13,8 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ItemBlock {
     @JsonProperty("Items")
-    @Getter private Map<String, ItemInfo> items = new HashMap<>();
+    @Getter
+    private Map<String, ItemInfo> items = new HashMap<>();
 
     @JsonAnySetter
     public void setItems(String key, ItemInfo value) {
