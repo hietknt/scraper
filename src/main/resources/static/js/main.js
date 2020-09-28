@@ -3,8 +3,8 @@ Vue.component('item-row', {
     template:
     '<tr>' +
         '<td class="align-middle"><span class="cursor" onclick="copy(this)">{{ item.name }}</span></td>' +
-        '<td class="align-middle text-center">{{ item.firstPrice }}$<br>[{{ item.firstAmount}}/{{ item.firstMax}}]</td>' +
-        '<td class="align-middle text-center">{{ item.secondPrice }}$<br>[{{ item.secondAmount}}/{{ item.secondMax }}]</td>' +
+        '<td class="align-middle text-center">{{ item.firstPrice }}$<br>[{{ item.firstAmount}}/{{ item.firstMax}}] <i class="fas fa-exclamation-circle fa-xs text-danger" v-if="item.firstAmount >= item.firstMax"></i></td>' +
+        '<td class="align-middle text-center">{{ item.secondPrice }}$<br>[{{ item.secondAmount}}/{{ item.secondMax }}] <i class="fas fa-exclamation-circle fa-xs text-danger" v-if="item.secondAmount >= item.secondMax"></i></td>' +
         '<td class="align-middle text-center">{{ item.secondToFirstPercent }}%</td>' +
         '<td class="align-middle text-center">{{ item.firstToSecondPercent }}%</td>' +
     '</tr>'
