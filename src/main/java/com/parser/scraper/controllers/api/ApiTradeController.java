@@ -72,8 +72,6 @@ public class ApiTradeController {
             @RequestParam(required = false, defaultValue = "0") double minPrice,
             @RequestParam(required = false, defaultValue = "10000") double maxPrice,
             @RequestParam(required = false, defaultValue = "false") boolean isOverStocked,
-            @RequestParam(required = false, defaultValue = "lootfarm") String firstMarket,
-            @RequestParam(required = false, defaultValue = "tradeit") String secondMarket,
             @RequestParam(required = false, defaultValue = "none") String sortOrder,
             @RequestParam(required = false, defaultValue = "0") int firstServiceMinCount,
             @RequestParam(required = false, defaultValue = "10000") int firstServiceMaxCount,
@@ -86,6 +84,8 @@ public class ApiTradeController {
             @RequestParam(required = false, defaultValue = "") String itemName,
             @RequestParam(required = false, defaultValue = "25") int itemSize,
             @RequestParam(required = false, defaultValue = "24:00:00") String timeFromLastUpdate,
+            @RequestParam String firstMarket,
+            @RequestParam String secondMarket,
             @PathVariable long gameId) {
 
         if (firstServiceMinCount < 0) {
@@ -109,8 +109,7 @@ public class ApiTradeController {
             firstMarketPlace = marketPlaces.stream().filter(object -> object.getName().equals(firstMarket)).findFirst().get();
             secondMarketPlace = marketPlaces.stream().filter(object -> object.getName().equals(secondMarket)).findFirst().get();
         } else {
-            firstMarketPlace = marketPlaces.stream().filter(object -> object.getName().equals("lootfarm")).findFirst().get();
-            secondMarketPlace = marketPlaces.stream().filter(object -> object.getName().equals("tradeit")).findFirst().get();
+            return null;
         }
 
         List<ComparedItem> items;

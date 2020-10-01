@@ -1,4 +1,4 @@
-package com.parser.scraper.controllers.tradeControllers;
+package com.parser.scraper.controllers.priceControllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class TradeController {
+public class PriceController {
 
-    @GetMapping("/trade")
+    @GetMapping("/prices")
     public String trade(Model model) {
-        model.addAttribute("title", "Trade");
+        model.addAttribute("title", "Price list");
 
-        return "trade";
+        return "prices";
     }
 }

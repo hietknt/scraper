@@ -26,6 +26,8 @@
                 app.params.secondMarket = $('[name="service"]:checked')[1].value;
             }
 
+            $(".firstService").text(app.params.firstMarket.toUpperCase());
+            $(".secondService").text(app.params.secondMarket.toUpperCase());
             app.$children[0].getRequest();
         }
 
@@ -77,6 +79,9 @@
                     app.$children[0].getRequest();
                 }
             };
+
+            $(".firstService").text(app.params.firstMarket.toUpperCase());
+            $(".secondService").text(app.params.secondMarket.toUpperCase());
         });
     </script>
 
@@ -177,7 +182,7 @@
         <div class="card bg-secondary mb-3">
             <div class="card-header">
                 <div class="row justify-content-center align-items-center">
-                    <span th:text="${firstService}"/>&nbsp;&&nbsp;<span th:text="${secondService}"/>&nbsp;COMPARE
+                    <span class="firstService"></span>&nbsp;&&nbsp;<span class="secondService"></span>&nbsp;COMPARE
                 </div>
             </div>
             <div class="card-body">
@@ -202,7 +207,7 @@
                         <th class="text-center" scope="col"/>
                         <div>
                             <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder != 'first_price_asc' ? app.params.sortOrder = 'first_price_asc' : app.params.sortOrder = 'first_price_desc'; app.$children[0].getRequest();">
-                                <span th:text="${firstService}"/>
+                                <span class="firstService"></span>
                             </a>
                         </div>
                         <div class="row mt-1 d-flex justify-content-center">
@@ -213,7 +218,7 @@
                         <th class="text-center" scope="col">
                             <div>
                                 <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder != 'second_price_asc' ? app.params.sortOrder = 'second_price_asc' : app.params.sortOrder = 'second_price_desc'; app.$children[0].getRequest();">
-                                    <span th:text="${secondService}"/>
+                                    <span class="secondService"></span>
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
@@ -225,9 +230,9 @@
 
                             <div>
                                 <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder = 'first_second'; app.$children[0].getRequest();">
-                                    <span th:text="${firstService}"/>
+                                    <span class="firstService"></span>
                                     &nbsp;&#8594;&nbsp;
-                                    <span th:text="${secondService}"/>
+                                    <span class="secondService"></span>
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
@@ -238,9 +243,9 @@
                         <th class="text-center" scope="col">
                             <div>
                                 <a class="btn btn-outline-secondary btn-sm" onclick="app.params.sortOrder = 'second_first'; app.$children[0].getRequest();">
-                                    <span th:text="${secondService}"/>
+                                    <span class="secondService"></span>
                                     &nbsp;&#8594;&nbsp;
-                                    <span th:text="${firstService}"/>
+                                    <span class="firstService"></span>
                                 </a>
                             </div>
                             <div class="row mt-1 d-flex justify-content-center">
@@ -272,6 +277,6 @@
 <script crossorigin="anonymous"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/trade.js"></script>
 </body>
 </html>
