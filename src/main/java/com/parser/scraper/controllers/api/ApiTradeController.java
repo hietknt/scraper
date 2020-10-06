@@ -32,7 +32,7 @@ public class ApiTradeController {
 
     @GetMapping("/getByName")
     public List<Item> getByName(@RequestParam String name) {
-        return itemRepository.findByName(name);
+        return itemRepository.findByNameIgnoreCase(name);
     }
 
     @GetMapping("/getByMarketId/{gameId}")
@@ -146,5 +146,10 @@ public class ApiTradeController {
         }
 
         return comparedItems.size() >= itemSize ? comparedItems.subList(0, itemSize) : comparedItems.subList(0, comparedItems.size());
+    }
+
+    @GetMapping("/getMarkets")
+    public List<MarketPlace> getMarkets(){
+        return marketPlaceRepository.findAll();
     }
 }

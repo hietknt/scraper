@@ -10,10 +10,9 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    //API
     List<Item> findByGameId(long gameId);
 
-    List<Item> findByName(String name);
+    List<Item> findByNameIgnoreCase(String name);
 
     List<Item> findByMarketIdAndGameId(int marketId, long gameId);
 
