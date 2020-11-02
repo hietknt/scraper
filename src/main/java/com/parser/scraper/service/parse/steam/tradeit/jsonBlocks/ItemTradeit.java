@@ -10,9 +10,9 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemTradeit {
     @JsonAlias({"440", "570", "730", "252490", "433850"})
-    private GameBlock gameBlock;
+    private TradeitGameBlock gameBlock;
 
-    public Map<String, ItemInfo> getItems() {
+    public Map<String, TradeitItemInfo> getItems() {
         return gameBlock.getItemsBlock().getItems();
     }
 }

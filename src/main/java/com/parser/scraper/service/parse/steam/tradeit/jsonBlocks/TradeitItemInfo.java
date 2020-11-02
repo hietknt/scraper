@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ItemInfo {
+public class TradeitItemInfo {
     private static Map<String, String> qualityMap = Stream.of(new String[][]{
             {"FN", "Factory New"},
             {"MW", "Minimal Wear"},

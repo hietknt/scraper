@@ -3,7 +3,7 @@ package com.parser.scraper.service.updater;
 import com.parser.scraper.model.Item;
 import com.parser.scraper.repository.ItemRepository;
 import com.parser.scraper.service.parse.steam.tradeit.ParseTradeit;
-import com.parser.scraper.service.parse.steam.tradeit.jsonBlocks.ItemInfo;
+import com.parser.scraper.service.parse.steam.tradeit.jsonBlocks.TradeitItemInfo;
 import com.parser.scraper.service.parse.steam.tradeit.jsonBlocks.ItemTradeit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +31,10 @@ public class UpdateTradeit implements UpdateItems {
                 startTime = System.currentTimeMillis();
                 Iterator<ItemTradeit> iterator = tradeit.parse(String.valueOf(gameId)).iterator();
                 while (iterator.hasNext()) {
-                    Map<String, ItemInfo> item = iterator.next().getItems();
+                    Map<String, TradeitItemInfo> item = iterator.next().getItems();
                     if (item.size() != 0) {
-                        for (Map.Entry<String, ItemInfo> map : item.entrySet()) {
-                            ItemInfo info = map.getValue();
+                        for (Map.Entry<String, TradeitItemInfo> map : item.entrySet()) {
+                            TradeitItemInfo info = map.getValue();
 
                             if (itemList.stream().filter(object -> object.getName().equals(map.getKey())).findFirst().isPresent()) {
                                 itemList.stream().filter(object -> object.getName().equals(map.getKey())).findFirst().get().incrementAmount();

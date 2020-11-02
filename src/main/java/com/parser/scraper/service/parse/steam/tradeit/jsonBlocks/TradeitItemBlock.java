@@ -11,13 +11,13 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ItemBlock {
+public class TradeitItemBlock {
     @JsonProperty("Items")
     @Getter
-    private Map<String, ItemInfo> items = new HashMap<>();
+    private Map<String, TradeitItemInfo> items = new HashMap<>();
 
     @JsonAnySetter
-    public void setItems(String key, ItemInfo value) {
+    public void setItems(String key, TradeitItemInfo value) {
         String newKey = key.split("_")[1]
                 + (value.getQuality().equals("Default") ? "" : (" (" + value.getQuality() + ")"));
 

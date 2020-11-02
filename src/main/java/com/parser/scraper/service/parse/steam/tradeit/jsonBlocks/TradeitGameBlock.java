@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GameBlock {
+public class TradeitGameBlock {
     @JsonProperty("items")
-    private ItemBlock itemsBlock;
+    private TradeitItemBlock itemsBlock;
 }

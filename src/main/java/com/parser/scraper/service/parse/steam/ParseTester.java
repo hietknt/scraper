@@ -1,37 +1,19 @@
 package com.parser.scraper.service.parse.steam;
 
-import com.parser.scraper.config.AppConfig;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.parser.scraper.service.parse.steam.buff163.ParseBuff163;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
+@Component
 public class ParseTester {
 
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+    @Autowired
+    private ParseBuff163 parseBuff163;
 
-        /*
-        // LootFarm
-        ParseLootfarm site1 = context.getBean(ParseLootfarm.class);
-        ArrayDeque<ItemLootfarm> loot = site1.parse("730");
-        Iterator<ItemLootfarm> iter = loot.iterator();
-        while (iter.hasNext()){
-            System.out.println(iter.next().getName());
-        }
-        */
-
-
-        /*
-        // TradeIT
-        ParseTradeit site2 = context.getBean(ParseTradeit.class);
-        int i2 = 0;
-        Map<String, ItemInfo> tradeit = site2.parse("730");
-        for (Map.Entry<String, ItemInfo> entry: tradeit.entrySet()) {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue().getPrice());
-            i2++;
-        }
-        System.out.println(i2);
-        */
-
-
+    //@PostConstruct
+    public void startBackgroundParse() {
+        parseBuff163.parse("0");
     }
 }
