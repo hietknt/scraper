@@ -26,8 +26,8 @@ public interface ComparedItemRepository extends JpaRepository<ComparedItem, Long
             "AND t2.amount >= ?8 AND t2.amount < ?9\n" +
             "AND (t1.price/t2.price-1)*100 > ?10 AND (t1.price/t2.price-1)*100 < ?11\n" +
             "AND (t2.price/t1.price-1)*100 > ?12 AND (t2.price/t1.price-1)*100 < ?13\n" +
-            "AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
-            "AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
+            //"AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
+            //"AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
     List<ComparedItem> getFull(long gameId, int firstMarketId, int secondMarketId,
@@ -55,8 +55,8 @@ public interface ComparedItemRepository extends JpaRepository<ComparedItem, Long
             "AND (t1.price/t2.price-1)*100 > ?10 AND (t1.price/t2.price-1)*100 < ?11\n" +
             "AND (t2.price/t1.price-1)*100 > ?12 AND (t2.price/t1.price-1)*100 < ?13\n" +
             "AND t1.amount < t1.max\n" +
-            "AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
-            "AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
+            //"AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
+            //"AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
     List<ComparedItem> getToFirstOverstock(long gameId, int firstMarketId, int secondMarketId,
@@ -84,8 +84,8 @@ public interface ComparedItemRepository extends JpaRepository<ComparedItem, Long
             "AND (t1.price/t2.price-1)*100 > ?10 AND (t1.price/t2.price-1)*100 < ?11\n" +
             "AND (t2.price/t1.price-1)*100 > ?12 AND (t2.price/t1.price-1)*100 < ?13\n" +
             "AND t2.amount < t2.max\n" +
-            "AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
-            "AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
+            //"AND (NOW() - t1.update_date_time) < cast(?14 as time)\n" +
+            //"AND (NOW() - t2.update_date_time) < cast(?14 as time)\n" +
             "ORDER BY name;",
             nativeQuery = true)
     List<ComparedItem> getToSecondOverstock(long gameId, int firstMarketId, int secondMarketId,

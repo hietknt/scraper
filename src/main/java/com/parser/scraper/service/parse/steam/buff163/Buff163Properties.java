@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties
 @PropertySource("classpath:properties/buff163.properties")
 public class Buff163Properties {
-    String csrfToken;
-    String localeSupported;
-    String session;
+    private String csrfToken;
+    private String localeSupported;
+    private String session;
 }
